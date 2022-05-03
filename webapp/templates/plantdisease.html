@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block title %}Plant Disease Detection{% endblock title %} 
+
+{% block content %}
+
+<div class="row-sm">
+    <div class="col-sm-12 p-0">
+        <p class="text-center">
+            <h3 class="text-center">
+                Plant Classification
+            </h3>
+            <p class="text-center">
+                Upload a image of plant to know what type of disease a plant has
+            </p>
+        </p>
+        <p>
+            <h4 class="text-center">
+                Upload Image file
+            </h4>
+        </p>
+        <div class="d-flex justify-content-center">
+            <form method=post enctype=multipart/form-data>
+                <input type=file name=file>
+                <input type=submit value=Upload>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
