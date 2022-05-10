@@ -35,7 +35,3 @@ In the models directory there are two folders 'recommender-models' & 'cnn'. Reco
 **Web:** Flask, Bootstrap
 
 
-## Authors
-
-- [@katherinepeterson](https://www.github.com/octokatherine)
-
