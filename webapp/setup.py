@@ -1,23 +1,24 @@
-from json import load
 from flask import Flask, render_template, redirect, request, url_for, send_from_directory, flash
 from werkzeug.utils import secure_filename
 import os
 import tensorflow
 import numpy as np
+import pickle
 
 app = Flask(__name__)
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, 'model')
 
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'bucket')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'JPG'}
 
-MODEL = tensorflow.keras.models.load_model(os.path.join(os.path.join(BASE_DIR, 'model'), 'efficientnetv2s.h5'))
+MODEL = tensorflow.keras.models.load_model(os.path.join(MODEL_DIR, 'efficientnetv2s.h5'))
+REC_MODEL = pickle.load(open(os.path.join(MODEL_DIR, 'RF.pkl'), 'rb'))
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-CLASSES = ['Apple___Apple_scab', 'Apple___Black_rot', 'Apple___Cedar_apple_rust', 'Apple___healthy', 'Blueberry___healthy', 'Cherry_(including_sour)___Powdery_mildew', 'Cherry_(including_sour)___healthy', 'Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot', 'Corn_(maize)___Common_rust_', 'Corn_(maize)___Northern_Leaf_Blight', 'Corn_(maize)___healthy', 'Grape___Black_rot', 'Grape___Esca_(Black_Measles)', 'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)', 'Grape___healthy', 'Orange___Haunglongbing_(Citrus_greening)', 'Peach___Bacterial_spot', 'Peach___healthy', 'Pepper,_bell___Bacterial_spot', 'Pepper,_bell___healthy', 'Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy', 'Raspberry___healthy', 'Soybean___healthy', 'Squash___Powdery_mildew', 'Strawberry___Leaf_scorch', 'Strawberry___healthy', 'Tomato___Bacterial_spot', 'Tomato___Early_blight', 'Tomato___Late_blight', 'Tomato___Leaf_Mold', 'Tomato___Septoria_leaf_spot', 'Tomato___Spider_mites Two-spotted_spider_mite', 'Tomato___Target_Spot', 'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus', 'Tomato___healthy']
-
+CLASSES = ['Apple scab', 'Apple Black rot', 'Apple Cedar apple rust', 'Apple healthy', 'Blueberry healthy', 'Cherry (including sour) Powdery mildew', 'Cherry (including sour) healthy', 'Corn (maize) Cercospora leaf spot Gray leaf spot', 'Corn(maize) Common rust', 'Corn(maize) Northern Leaf Blight', 'Corn(maize) healthy', 'Grape Black rot', 'Grape Esca(Black Measles)', 'Grape Leaf blight(Isariopsis Leaf Spot)', 'Grape healthy', 'Orange Haunglongbing(Citrus greening)', 'Peach Bacterial spot', 'Peach healthy', 'Bell PepperBacterial_spot', 'Pepper bell healthy', 'Potato Early blight', 'Potato Late blight', 'Potato healthy', 'Raspberry healthy', 'Soybean healthy', 'Squash Powdery mildew', 'Strawberry Leaf scorch', 'Strawberry healthy', 'Tomato Bacterial spot', 'Tomato Early blight', 'Tomato Late blight', 'Tomato Leaf Mold', 'Tomato Septoria leaf spot', 'Tomato Spider mites (Two-spotted spider mite)', 'Tomato Target Spot', 'Tomato Yellow Leaf Curl Virus', 'Tomato mosaic virus', 'Tomato healthy']
 
 @app.route('/')
 def home():
@@ -27,9 +28,18 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/uploads/<name>')
-def download_file(name):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+@app.route('/about')
+def aboutme():
+    return render_template('about.html')
+
+@app.route('/plantdisease/<res>')
+def plantresult(res):
+    print(res)
+    corrected_result = ""
+    for i in res:
+        if i!='_':
+            corrected_result = corrected_result+i
+    return render_template('plantdiseaseresult.html', corrected_result=corrected_result)
 
 @app.route('/plantdisease', methods=['GET', 'POST'])
 def plantdisease():
@@ -57,8 +67,41 @@ def plantdisease():
             p = np.argmax(predict[0])
             res = CLASSES[p]
             print(res)
-            return redirect(url_for('download_file', name=filename))
+            return redirect(url_for('plantresult', res=res))
     return render_template("plantdisease.html")
+
+@app.route('/croprecommendation/<res>')
+def cropresult(res):
+    print(res)
+    corrected_result = res
+    return render_template('croprecresult.html', corrected_result=corrected_result)
+
+@app.route('/croprecommendation', methods=['GET', 'POST'])
+def cr():
+    if request.method == 'POST':
+        X = []
+        if request.form.get('nitrogen'):
+            X.append(float(request.form.get('nitrogen')))
+        if request.form.get('phosphorous'):
+            X.append(float(request.form.get('phosphorous')))
+        if request.form.get('potassium'):
+            X.append(float(request.form.get('potassium')))
+        if request.form.get('temperature'):
+            X.append(float(request.form.get('temperature')))
+        if request.form.get('humidity'):
+            X.append(float(request.form.get('humidity')))
+        if request.form.get('ph'):
+            X.append(float(request.form.get('ph')))
+        if request.form.get('rainfall'):
+            X.append(float(request.form.get('rainfall')))
+        X = np.array(X)
+        X = X.reshape(1, -1)
+        res = REC_MODEL.predict(X)[0]
+        # print(res)
+        return redirect(url_for('cropresult', res=res))
+    return render_template('croprec.html')
+
+
 
 if __name__== "__main__":
     app.run(debug=True)

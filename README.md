@@ -4,29 +4,38 @@
 An AI powered agriculture utility platform
 
 
-
 ## Features
 
-- Crop recommendation
-- Plant Disease detection
-- Weather reports
-- Fully scalable and easily deployable
+- Plant disease detection(Detects upto 33 classes)
+- Crop recommendation based on soil quality and environmental factors
+- Information about different crops
 
 
+## Installation
 
-## Machine Learning
+There are 2 parts in this project
 
-### Plant Recommendation System
+#### ML/DL
 
-The dataset consisted of a CSV file with features such as NPK 
-value of the soil, temperature, rainfall, humidity and 
-crop name as the output feature.
+In the models directory there are two folders 'recommender-models' & 'cnn'. Recommender-models has all the models related to crop recommendation system and cnn folder contains all the notebooks and models related to plant disease classification.
 
-Data was trained using logistic regression, SVM, MLP, decision tree 
-and random forest. Random forest model is implemented in the webapp
-as it gave the best accuracy.
+#### Web
 
-### Plant Disease Classification
+```bash
+  python3 -m venv venv
+  cd Saathi/webapp
+  pip3 install -r requirements.txt
+  python3 setup.py
+```
+    
+## Tech Stack
 
-The dataset consisted of ~70K images of different plant leaves having
-different plant 
+**ML/DL:** Tensorflow, Keras, Scikit
+
+**Web:** Flask, Bootstrap
+
+
+## Authors
+
+- [@katherinepeterson](https://www.github.com/octokatherine)
+

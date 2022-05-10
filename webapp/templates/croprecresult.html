@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block title %}Crop Recommendation{% endblock title %} 
+
+{% block content %}
+
+<div class="row-sm p-sm-5">
+    <div class="col-sm-12 p-sm-5">
+        <p class="text-center">
+            <h3 class="text-center">
+                Crop Recommendation System
+            </h3>
+            <p class="text-center">
+                The crop you should plant based on your data is - <h5 class="text-center"><b>{{corrected_result}}</b></h5>
+            </p>
+        </p>
+    </div>  
+</div>
+
+
+{% endblock content %}

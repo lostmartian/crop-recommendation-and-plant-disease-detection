@@ -2,10 +2,20 @@
 
 {% block content %}
 
-<div class="row-sm">
-    <div class="col-sm-12 p-0">
-        
-    </div>
+<div class="row-sm p-sm-5">
+    <div class="col-sm-12 p-sm-5">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{url_for('static', filename='images/sliders/first.jpg')}}" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2>Welcome to Saathi</h2>
+                        <p>A agriculture utility website to help farmers by providing harvesting solution using artificial intelligence.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
 </div>
 
 

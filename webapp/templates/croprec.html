@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block title %}Crop Recommendation{% endblock title %} 
+
+{% block content %}
+
+<div class="row-sm p-sm-5">
+    <div class="col-sm-12 p-sm-5">
+        <p class="text-center">
+            <h3 class="text-center">
+                Crop Recommendation
+            </h3>
+            <p class="text-center">
+                Enter the valid numbers into the input field
+            </p>
+        </p>
+        <p>
+            <h4 class="text-center">
+                Enter corresponding values
+            </h4>
+        </p>
+        <form method=post enctype=multipart/form-data>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Nitrogen(kg/ha)</span>
+            <input type="number" name="nitrogen" step="0.0001" class="form-control" placeholder="ratio of Nitrogen content in soil - kg/ha" aria-label="ratio of Nitrogen content in soil - kg/ha" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Phosphorous(kg/ha)</span>
+            <input type="number" name="phosphorous" step="0.0001" class="form-control" placeholder="ratio of Phosphorous content in soil - kg/ha " aria-label="ratio of Phosphorous content in soil - kg/ha " aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Potassium(kg/ha)</span>
+            <input type="number" name="potassium" step="0.0001" class="form-control" placeholder="ratio of Potassium content in soil - kg/ha" aria-label="ratio of Potassium content in soil - kg/ha" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Temperature(C)</span>
+            <input type="number" name="temperature" step="0.0001" class="form-control" placeholder="temperature in degree Celsius " aria-label="temperature in degree Celsius" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Humidity</span>
+            <input type="number" name="humidity" step="0.0001" class="form-control" placeholder="relative humidity in %" aria-label="relative humidity in %" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">pH of soil</span>
+            <input type="number" name="ph" step="0.0001" class="form-control" placeholder="pH value of the soil" aria-label="pH value of the soil" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Rainfall(mm)</span>
+            <input type="number" name="rainfall" step="0.0001" class="form-control" placeholder="rainfall in mm" aria-label="rainfall in mm" aria-describedby="basic-addon1">
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}
