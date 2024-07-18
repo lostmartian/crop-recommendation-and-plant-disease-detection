@@ -1,4 +1,8 @@
 
+> **Warning**
+> The requirements.txt file is missing, and I do not have the project on my local machine. Still, I think the project should run if the following packages are installed.
+> pip3 install flask tensorflow werkzeug pickle numpy
+
 # Saathi
 
 An AI powered agriculture utility platform
