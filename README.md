@@ -1,15 +1,10 @@
 
-> [!CAUTION]
-> The requirements.txt file is missing, and I do not have the project on my local machine. The project should run if the following packages are installed:
-> 
-> pip3 install flask tensorflow werkzeug pickle numpy
-
 # Saathi
 
 An AI powered agriculture utility platform
 ## Features
 
-- Plant disease detection(Detects upto 33 classes)
+- Plant disease detection (Detects up to 38 classes)
 - Crop recommendation based on soil quality and environmental factors
 - Information about different crops
 
@@ -23,7 +18,7 @@ An AI powered agriculture utility platform
 
 ## Installation
 
-There are 2 parts in this project
+There are 2 parts in this project. The web application is tested with Python 3.10.
 
 #### ML/DL
 
@@ -32,10 +27,16 @@ In the models directory there are two folders 'recommender-models' & 'cnn'. Reco
 #### Web
 
 ```bash
-  python3 -m venv venv
-  cd Saathi/webapp
-  pip3 install -r requirements.txt
-  python3 setup.py
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+# Linux/macOS
+# source .venv/bin/activate
+
+python -m pip install -r requirements.txt
+python webapp/setup.py
 ```
 ## Results
 
